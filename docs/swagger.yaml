@@ -1,0 +1,199 @@
+basePath: /api/v1
+definitions:
+  model.TodoItem:
+    properties:
+      created_at:
+        type: string
+      date:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  model.TodoPagination:
+    properties:
+      item:
+        items:
+          $ref: '#/definitions/model.TodoItem'
+        type: array
+      total_items:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  title: TodoList API
+  version: "1.0"
+paths:
+  /todo:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        name: date
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TodoPagination'
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.TodoPagination'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get list todos with pagination
+      tags:
+      - todo
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: updated todo item
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.TodoItem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Update todo item by id
+      tags:
+      - todo
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: todo info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.TodoItem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Create new todo
+      tags:
+      - todo
+  /todo/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: id todo for delete
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: delete todo by id
+      tags:
+      - todo
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: todo id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TodoItem'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get todo by id
+      tags:
+      - todo
+swagger: "2.0"

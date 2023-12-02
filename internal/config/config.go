@@ -27,7 +27,7 @@ var (
 )
 
 func (d DBConfig) ConnectionString() string {
-	return fmt.Sprintf("%s://%s:%s@%s:%s/%s?sslmode=disable",
+	return fmt.Sprintf("%s://%s:%s@%s:%s/%s?sslmode=disable&timezone=UTC",
 		d.Driver,
 		d.User,
 		d.Password,
